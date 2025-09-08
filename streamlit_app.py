@@ -4,14 +4,20 @@ import matplotlib.pyplot as plt
 
 st.title("Temperature & Humidity Data Plotter")
 
+# ✅ Cached CSV loader
+@st.cache_data
+def load_data(file):
+    df = pd.read_csv(file)
+    df.columns = df.columns.str.strip()
+    df['Time'] = pd.to_datetime(df['Time'], errors='coerce')
+    df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
+    return df
+
 # Upload CSV
 uploaded_file = st.file_uploader("Choose CSV file", type=["csv"])
 if uploaded_file:
     try:
-        df = pd.read_csv(uploaded_file)
-        df.columns = df.columns.str.strip()
-        df['Time'] = pd.to_datetime(df['Time'], errors='coerce')
-        df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
+        df = load_data(uploaded_file)
     except Exception as e:
         st.error(f"Error reading CSV: {e}")
         st.stop()
@@ -46,7 +52,7 @@ if uploaded_file:
         ax.set_xlabel("Date" if grouping=="Day-wise" else "Month")
         ax.set_ylabel("Temperature (°C)" if parameter=="Temperature" else "Humidity (%)")
         ax.legend()
-        ax.set_ylim(0,grouped['max'].max()+5)
+        ax.set_ylim(0, grouped['max'].max()+5)
         ax.grid(True)
         plt.xticks(rotation=90)
         st.pyplot(fig)
