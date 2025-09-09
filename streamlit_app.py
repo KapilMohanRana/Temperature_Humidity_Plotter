@@ -56,3 +56,6 @@ if uploaded_file:
         ax.grid(True)
         plt.xticks(rotation=90)
         st.pyplot(fig)
+
+        st.subheader("Tabluar Form")
+        st.dataframe(grouped.reset_index())
