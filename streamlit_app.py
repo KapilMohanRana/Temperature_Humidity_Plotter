@@ -58,4 +58,12 @@ if uploaded_file:
         st.pyplot(fig)
 
         st.subheader("Tabluar Form")
-        st.dataframe(grouped.reset_index())
+        table = grouped.reset_index()
+        st.dataframe(table)
+        csv = table.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="Download Table as CSV",
+            data=csv,
+            file_name=f"{parameter}_{grouping}.csv",
+            mime="text/csv"
+        )
