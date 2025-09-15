@@ -84,7 +84,7 @@ if uploaded_file:
         fig, ax = plt.subplots(figsize=(10,6))
         ax.plot(grouped.index.astype(str), grouped['min'], marker='o', label=f"Min {parameter}")
         ax.plot(grouped.index.astype(str), grouped['max'], marker='o', label=f"Max {parameter}")
-        ax.set_title(f"{parameter} ({grouping})")
+        ax.set_title(f"{parameter} ({grouping}) ({uploaded_file.name})")
         ax.set_xlabel("Date" if grouping=="Day-wise" else "Month")
         ax.set_ylabel("Temperature (°C)" if parameter=="Temperature" else "Humidity (%)")
         ax.legend()
